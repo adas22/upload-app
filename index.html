@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Upload Photo</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #f9f9f9;
+      text-align: center;
+      padding: 20px;
+    }
+    form {
+      background: white;
+      padding: 20px;
+      margin: auto;
+      max-width: 400px;
+      border-radius: 10px;
+      box-shadow: 0 0 8px #ccc;
+    }
+    input, textarea, button {
+      margin: 10px 0;
+      padding: 10px;
+      width: 100%;
+    }
+    .note {
+      font-size: 14px;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <h2>Upload Your Photo</h2>
+  <p class="note">📸 Please take your photo in <b>landscape</b> (horizontal) mode.</p>
+  <form id="uploadForm">
+    <input type="file" name="photo" required>
+    <input type="text" name="name" placeholder="Your Name" required>
+    <textarea name="quote" placeholder="Your Quote" required></textarea>
+    <button type="submit">Upload</button>
+    <p id="message"></p>
+  </form>
+
+  <script>
+    document.getElementById("uploadForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const form = e.target;
+      const data = new FormData(form);
+      const res = await fetch("https://photo-backend-production-991a.up.railway.app/upload", {
+        method: "POST",
+        body: data
+      });
+      if (res.ok) {
+        document.getElementById("message").innerText = "✅ Upload successful!";
+        form.reset();
+      } else {
+        document.getElementById("message").innerText = "❌ Upload failed.";
+      }
+    });
+  </script>
+</body>
+</html>
